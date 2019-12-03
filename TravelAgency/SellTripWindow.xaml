@@ -5,8 +5,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:local="clr-namespace:TravelAgency"
         mc:Ignorable="d"
-        Title="SellTripWindow" Height="450" Width="800">
+        Title="SellTripWindow" Height="350" Width="600" ResizeMode="NoResize">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.Resources>
+            <Style TargetType="Label">
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="HorizontalAlignment" Value="Center" />
+            </Style>
+        </Grid.Resources>
+        <Label Grid.Column="0" Grid.Row="0">Choose client:</Label>
+        <Label Grid.Column="1" Grid.Row="0">Choose trip:</Label>
+
+        <ComboBox x:Name="ClientsComboBox" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top"
+                  HorizontalAlignment="Center" Width="200" Margin="0,50,0,0" FontSize="18"
+                  SelectionChanged="ClientsComboBox_OnSelectionChanged" />
+        <ComboBox x:Name="TripsComboBox" Grid.Column="1" Grid.Row="0" VerticalAlignment="Top"
+                  HorizontalAlignment="Center" Width="200" Margin="0,50,0,0" FontSize="18"
+                  SelectionChanged="TripsComboBox_OnSelectionChanged" />
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2">
+            <Label x:Name="TotalLabel" FontSize="30">Total:</Label>
+            <Label x:Name="DiscountLabel" FontSize="30">Discount:</Label>
+            <Label x:Name="TotalWithDiscountLabel" FontSize="30">Total with discount:</Label>
+        </StackPanel>
+        <Button x:Name="SellButton" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center"
+                VerticalAlignment="Bottom" FontSize="18" Padding="15,5" Margin="10" Click="SellButton_OnClick">
+            Sell
+        </Button>
     </Grid>
 </Window>

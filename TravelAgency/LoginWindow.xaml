@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency"
         mc:Ignorable="d"
-        Title="Login" Height="200" Width="320" >
+        Title="Login" Height="200" Width="320" ResizeMode="NoResize">
     <Grid>
         <Button x:Name="LoginButton" Click="LoginButton_Click" Content="Login" HorizontalAlignment="Center" Margin="163,0,75,30" VerticalAlignment="Bottom" Width="76" IsDefault="True"/>
         <TextBox Name="UsernameBox" HorizontalAlignment="Left" Height="23" Margin="97,30,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="186"/>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.CodeDom;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,27 +19,27 @@ namespace TravelAgency
     /// </summary>
     public partial class MainWindow
     {
-        private readonly TravelAgencyDbContext _context;
         private readonly Employee _employee;
 
         public MainWindow(Employee employee)
         {
-            _context = new TravelAgencyDbContext();
+            
             _employee = employee;
             InitializeComponent();
             LoadData();
-            LoginLabel.Content =  $"Logged in as {employee.FirstName} {employee.MiddleName} {employee.LastName}";
+            LoginLabel.Content = $"Logged in as {employee.FirstName} {employee.MiddleName} {employee.LastName}";
         }
 
         private void LoadData()
         {
-            _context.Trips.Load();
-            _context.Sales.Load();
-            _context.Clients.Load();
-            TripsGrid.ItemsSource = _context.Trips.Local.ToObservableCollection();
-            SalesGrid.ItemsSource = _context.Sales.Local.ToObservableCollection();
-            ClientsGrid.ItemsSource = _context.Clients.Local.ToObservableCollection();
-            CityFilterComboBox.ItemsSource = _context.Trips.Local.Select(t => t.City).Distinct();
+            using var context = new TravelAgencyDbContext();
+            context.Trips.Load();
+            context.Sales.Load();
+            context.Clients.Load();
+            TripsGrid.ItemsSource = context.Trips.Local.ToObservableCollection();
+            SalesGrid.ItemsSource = context.Sales.Local.ToObservableCollection();
+            ClientsGrid.ItemsSource = context.Clients.Local.ToObservableCollection();
+            CityFilterComboBox.ItemsSource = context.Trips.Local.Select(t => t.City).Distinct();
         }
 
         private void Grid_OnAutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -53,7 +54,7 @@ namespace TravelAgency
                 ((DataGridTextColumn) e.Column).Binding.StringFormat = "dd.MM.yyyy";
             }
 
-            if (e.PropertyType == typeof(string[]))
+            if (e.PropertyType == typeof(string[]) || e.PropertyType == typeof(IEnumerable<Trip>))
             {
                 ((DataGridTextColumn) e.Column).Visibility = Visibility.Hidden;
             }
@@ -70,7 +71,8 @@ namespace TravelAgency
             cv.Filter = c =>
             {
                 var client = (Client) c;
-                return client.Trips != null && client.Trips.Any() && client.Trips.Any(t => t.City == (string)CityFilterComboBox.SelectedItem);
+                return client.Trips != null && client.Trips.Any() &&
+                       client.Trips.Any(t => t.City == (string) CityFilterComboBox.SelectedItem);
             };
         }
 
@@ -102,19 +104,18 @@ namespace TravelAgency
         {
             var cv = CollectionViewSource.GetDefaultView(TripsGrid.ItemsSource);
             cv.Filter -= TripsLastMinuteFilter;
-            
         }
 
         private bool TripsDateFilter(object t)
         {
-            var trip = (Trip)t;
+            var trip = (Trip) t;
             return TripDatePicker.SelectedDate.HasValue &&
                    trip.Start.Date == TripDatePicker.SelectedDate.Value.Date;
         }
 
         private bool TripsLastMinuteFilter(object t)
         {
-            var trip = (Trip)t;
+            var trip = (Trip) t;
             var timeToTrip = trip.Start.Date - DateTime.Today;
 
             return timeToTrip.Days <= 5 && trip.Start.Date > DateTime.Today;
@@ -131,10 +132,11 @@ namespace TravelAgency
             var addClient = new AddClientWindow();
             addClient.ShowDialog();
             if (addClient.DialogResult == null || !addClient.DialogResult.Value) return;
-            
+
             var client = addClient.Client;
-            _context.Clients.Add(client);
-            _context.SaveChanges();
+            using var context = new TravelAgencyDbContext();
+            context.Clients.Add(client);
+            context.SaveChanges();
         }
 
         private void AddTripMenuItem_OnClick(object sender, RoutedEventArgs e)
@@ -142,11 +144,60 @@ namespace TravelAgency
             var addTrip = new AddTripWindow();
             addTrip.ShowDialog();
             if (addTrip.DialogResult == null || !addTrip.DialogResult.Value) return;
-
+            
             var trip = addTrip.Trip;
-            _context.Trips.Add(trip);
-            _context.SaveChanges();
+            using var context = new TravelAgencyDbContext();
+            context.Trips.Add(trip);
+            context.SaveChanges();
         }
-        
+
+        private async void SellTripMenuItem_OnClick(object sender, RoutedEventArgs e)
+        {
+            var sellTrip = new SellTripWindow();
+            sellTrip.ShowDialog();
+            if (sellTrip.DialogResult == null || !sellTrip.DialogResult.Value) return;
+
+            await using var context = new TravelAgencyDbContext();
+            var trip = sellTrip.Trip;
+            var client = sellTrip.Client;
+            var salesCount = context.Sales.Any(s => s.Trip.Id == trip.Id)
+                ? context.Sales.Single(s => s.Trip.Id == trip.Id).SalesCount + 1
+                : 1;
+
+            Sale sale;
+
+            if (context.Sales.Any(s => s.Trip.Id == trip.Id))
+            {
+                sale = context.Sales.Single(s => s.Trip.Id == trip.Id);
+                sale.SalesCount = salesCount;
+                sale.TripsLeft = trip.AmountOfTrips - 1;
+                sale.LastSale = DateTime.Now;
+            }
+            else
+            {
+                sale = new Sale
+                {
+                    EmployeeFirstName = _employee.FirstName,
+                    EmployeeMiddleName = _employee.MiddleName,
+                    EmployeeLastName = _employee.LastName,
+                    Trip = trip,
+                    SalesCount = salesCount,
+                    TripsLeft = trip.AmountOfTrips - 1,
+                    LastSale = DateTime.Now
+                };
+                context.Sales.Add(sale);
+            }
+
+            context.Trips.Attach(trip);
+            context.Clients.Attach(client);
+
+            trip.AmountOfTrips--;
+            //client.Trips = client.Trips != null && client.Trips.Any() ? client.Trips.Concat(new[] {trip}) : new[] {trip};
+            var trips = client.Trips?.ToList() ?? new List<Trip>();
+            trips.Add(trip);
+            client.Trips = trips;
+            await context.SaveChangesAsync();
+            LoadData();
+        }
     }
 }

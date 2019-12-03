@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelAgency.Models
 {
@@ -30,7 +31,7 @@ namespace TravelAgency.Models
         public int SalesCount { get; set; }
         [Required]
         [Range(0, int.MaxValue)]
-        [DisplayName("Trips sold")]
+        [DisplayName("Trips left")]
         public int TripsLeft { get; set; }
         [DisplayName("Last trip sale")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd.MM.yyyy HH:mm:ss}")]

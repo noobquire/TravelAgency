@@ -5,41 +5,55 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TravelAgency"
         mc:Ignorable="d"
-        Title="Travel Agency Manager" Height="450" Width="801">
+        Title="Travel Agency Manager" Height="450" Width="800">
     <Grid>
         <Menu VerticalAlignment="Top" Height="20">
-            <MenuItem x:Name="StatsMenuItem" Header="_Stats" Click="StatsMenuItem_OnClick"/>
-            <MenuItem x:Name="AddClientMenuItem" Header="_Add client" Click="AddClientMenuItem_Click"/>
-            <MenuItem x:Name="AddTripMenuItem" Header="_Add trip" Click="AddTripMenuItem_OnClick"/>
-            <MenuItem x:Name="SellTripMenuItem" Header="_Sell trip"/>
+            <MenuItem x:Name="StatsMenuItem" Header="_Stats" Click="StatsMenuItem_OnClick" />
+            <MenuItem x:Name="AddClientMenuItem" Header="_Add client" Click="AddClientMenuItem_Click" />
+            <MenuItem x:Name="AddTripMenuItem" Header="_Add trip" Click="AddTripMenuItem_OnClick" />
+            <MenuItem x:Name="SellTripMenuItem" Header="_Sell trip" Click="SellTripMenuItem_OnClick"/>
         </Menu>
         <Label x:Name="LoginLabel" Margin="0, -5, 0, 0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right">Logged in as Alexey Litvinov</Label>
         <TabControl Margin="0,20,0,0">
             <TabItem Header="Clients">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <CheckBox x:Name="ClientsFilterCheckBox" Margin="0, 7, 0, 0" Checked="ClientsFilterCheckBox_OnChecked" Unchecked="ClientsFilterCheckBox_OnUnchecked">Only those who selected</CheckBox>
-                    <ComboBox Margin="160, 5, 0, 5" Width="100" x:Name="CityFilterComboBox" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" SelectedIndex="0"></ComboBox>
-                    <DataGrid x:Name="ClientsGrid" IsReadOnly="True" AutoGenerateColumns="True" AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1"></DataGrid>
+                    <CheckBox x:Name="ClientsFilterCheckBox" Margin="0, 7, 0, 0"
+                              Checked="ClientsFilterCheckBox_OnChecked" Unchecked="ClientsFilterCheckBox_OnUnchecked">
+                        Only those who selected
+                    </CheckBox>
+                    <ComboBox Margin="160, 5, 0, 5" Width="100" x:Name="CityFilterComboBox" VerticalAlignment="Top"
+                              HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" SelectedIndex="0" />
+                    <DataGrid x:Name="ClientsGrid" IsReadOnly="True" AutoGenerateColumns="True"
+                              AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1" />
                 </Grid>
             </TabItem>
             <TabItem Header="Trips">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="30"></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30" />
+                        <RowDefinition />
                     </Grid.RowDefinitions>
-                    <DataGrid x:Name="TripsGrid" IsReadOnly="True" AutoGenerateColumns="True" AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1"></DataGrid>
-                    <CheckBox x:Name="TripsFilterCheckBox" Margin="0, 7, 0, 0" Grid.Column="0" Grid.Row="0" Checked="TripsFilterCheckBox_OnChecked" Unchecked="TripsFilterCheckBox_OnUnchecked">Filter by date</CheckBox>
-                    <DatePicker x:Name="TripDatePicker" HorizontalAlignment="Left" Margin="100, 0, 0, 0" Grid.Column="0" Grid.Row="0" Width="150"></DatePicker>
-                    <CheckBox x:Name="LastMinuteCheckBox" Margin="260, 7, 0, 0" Grid.Column="0" Grid.Row="0" Checked="LastMinuteCheckBox_OnChecked" Unchecked="LastMinuteCheckBox_OnUnchecked">Last minute offers only</CheckBox>
+                    <DataGrid x:Name="TripsGrid" IsReadOnly="True" AutoGenerateColumns="True"
+                              AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1" />
+                    <CheckBox x:Name="TripsFilterCheckBox" Margin="0, 7, 0, 0" Grid.Column="0" Grid.Row="0"
+                              Checked="TripsFilterCheckBox_OnChecked" Unchecked="TripsFilterCheckBox_OnUnchecked">
+                        Filter by date
+                    </CheckBox>
+                    <DatePicker x:Name="TripDatePicker" HorizontalAlignment="Left" Margin="100, 0, 0, 0"
+                                Grid.Column="0" Grid.Row="0" Width="150" />
+                    <CheckBox x:Name="LastMinuteCheckBox" Margin="260, 7, 0, 0" Grid.Column="0" Grid.Row="0"
+                              Checked="LastMinuteCheckBox_OnChecked" Unchecked="LastMinuteCheckBox_OnUnchecked">
+                        Last minute offers only
+                    </CheckBox>
                 </Grid>
             </TabItem>
             <TabItem Header="Sales">
-                <DataGrid IsReadOnly="True" x:Name="SalesGrid" AutoGenerateColumns="True" AutoGeneratingColumn="Grid_OnAutoGeneratingColumn"></DataGrid>
+                <DataGrid IsReadOnly="True" x:Name="SalesGrid" AutoGenerateColumns="True"
+                          AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" />
             </TabItem>
         </TabControl>
     </Grid>

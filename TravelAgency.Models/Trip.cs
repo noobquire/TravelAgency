@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TravelAgency.Models
 {
@@ -14,10 +15,8 @@ namespace TravelAgency.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime Start { get; set; }
         [Required]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         public DateTime End { get; set; }
         [Required]
         [MaxLength(50)]
@@ -26,9 +25,9 @@ namespace TravelAgency.Models
         [DisplayName("Available services")]
         public string ServicesList => string.Join(", ", Services);
         [Required]
-        [Range(0, double.MaxValue)]
-        [DisplayFormat(DataFormatString = "{0:C}", ApplyFormatInEditMode = true)]
         public decimal Price { get; set; }
+        [DisplayName("Amount of trips")]
+        public int AmountOfTrips { get; set; }
         public override string ToString()
         {
             return $"{Name}, {City}";
