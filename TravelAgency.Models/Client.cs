@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 
 namespace TravelAgency.Models
@@ -33,9 +34,10 @@ namespace TravelAgency.Models
         [Range(0, 1)]
         [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = true)]
         public decimal Discount { get; set; }
-        public IEnumerable<Trip> Trips { get; set; }
-
-        public string TextTrips => string.Join(", ", Trips);
+        // TODO: switch to many-to-many relationship
+        public ICollection<ClientTrip> ClientTrips { get; set; }
+        [DisplayName("Trips")]
+        public string TextTrips => string.Join(", ", ClientTrips.Select(ct => ct.Trip));
         public override string ToString()
         {
             return $"{FirstName} {MiddleName} {LastName}";

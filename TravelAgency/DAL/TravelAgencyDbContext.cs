@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TravelAgency.Models;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using TravelAgency.Migrations;
 
 namespace TravelAgency.DAL
 {
@@ -31,6 +32,17 @@ namespace TravelAgency.DAL
             .HasConversion(
                 v => string.Join(',', v),
                 v => v.Split(',', StringSplitOptions.RemoveEmptyEntries));
+            modelBuilder.Entity<ClientTrip>()
+                .HasKey(ct => new {ct.ClientId, ct.TripId});
+            modelBuilder.Entity<ClientTrip>()
+                .HasOne(ct => ct.Client)
+                .WithMany(c => c.ClientTrips)
+                .HasForeignKey(ct => ct.ClientId);
+            modelBuilder.Entity<ClientTrip>()
+                .HasOne(ct => ct.Trip)
+                .WithMany(t => t.ClientTrips)
+                .HasForeignKey(ct => ct.TripId);
+
         }
     }
 }

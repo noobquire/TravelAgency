@@ -19,7 +19,7 @@ namespace TravelAgency
             using (var context = new TravelAgencyDbContext())
             {
 
-                var totalSpentPerClient = context.Clients?.ToDictionary(c => c, c => c.Trips?.Sum(t => t.Price) ?? 0);
+                var totalSpentPerClient = context.Clients?.ToDictionary(c => c, c => c.ClientTrips?.Sum(ct => ct.Trip.Price) ?? 0);
                 SpentForDiscounts = totalSpentPerClient?.Sum(kvp => kvp.Key.Discount * kvp.Value);
 
                 MostExpensiveTrip =

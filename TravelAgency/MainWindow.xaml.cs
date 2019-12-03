@@ -54,7 +54,7 @@ namespace TravelAgency
                 ((DataGridTextColumn) e.Column).Binding.StringFormat = "dd.MM.yyyy";
             }
 
-            if (e.PropertyType == typeof(string[]) || e.PropertyType == typeof(IEnumerable<Trip>))
+            if (e.PropertyType == typeof(string[]) || e.PropertyType == typeof(ICollection<ClientTrip>))
             {
                 ((DataGridTextColumn) e.Column).Visibility = Visibility.Hidden;
             }
@@ -71,8 +71,8 @@ namespace TravelAgency
             cv.Filter = c =>
             {
                 var client = (Client) c;
-                return client.Trips != null && client.Trips.Any() &&
-                       client.Trips.Any(t => t.City == (string) CityFilterComboBox.SelectedItem);
+                return client.ClientTrips != null && client.ClientTrips.Any() &&
+                       client.ClientTrips.Any(ct => ct.Trip.City == (string) CityFilterComboBox.SelectedItem);
             };
         }
 
@@ -193,9 +193,6 @@ namespace TravelAgency
 
             trip.AmountOfTrips--;
             //client.Trips = client.Trips != null && client.Trips.Any() ? client.Trips.Concat(new[] {trip}) : new[] {trip};
-            var trips = client.Trips?.ToList() ?? new List<Trip>();
-            trips.Add(trip);
-            client.Trips = trips;
             await context.SaveChangesAsync();
             LoadData();
         }

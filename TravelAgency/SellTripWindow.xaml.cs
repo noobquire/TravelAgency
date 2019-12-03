@@ -37,8 +37,18 @@ namespace TravelAgency
                 MessageBox.Show("Choose client and trip to sell", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            Trip = TripsComboBox.SelectedItem as Trip;
-            Client = ClientsComboBox.SelectedItem as Client;
+
+            var client = ClientsComboBox.SelectedItem as Client;
+            var trip = TripsComboBox.SelectedItem as Trip;
+            if (client?.ClientTrips != null && client.ClientTrips.Any(ct => trip != null && ct.TripId == trip.Id))
+            {
+                MessageBox.Show("This client already bought this trip", "Error", MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+                return;
+            }
+
+            Trip = trip;
+            Client = client;
             DialogResult = true;
         }
 
@@ -47,8 +57,11 @@ namespace TravelAgency
             var client = e.AddedItems[0] as Client;
             if (client != null) DiscountLabel.Content = $"Discount: {client.Discount:P2}";
             var trip = TripsComboBox.SelectedItem as Trip;
-            if(trip != null) TotalWithDiscountLabel.Content =
-                client == null ? $"Total with discount: {trip.Price:C}" : $"Total with discount: {trip.Price*(1-client.Discount):C}";
+            if (trip != null)
+                TotalWithDiscountLabel.Content =
+                    client == null
+                        ? $"Total with discount: {trip.Price:C}"
+                        : $"Total with discount: {trip.Price * (1 - client.Discount):C}";
         }
 
         private void TripsComboBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -58,7 +71,9 @@ namespace TravelAgency
             var client = ClientsComboBox.SelectedItem as Client;
             if (trip != null)
                 TotalWithDiscountLabel.Content =
-                    client == null ? $"Total with discount: {trip.Price:C}" : $"Total with discount: {trip.Price*(1-client.Discount):C}";
+                    client == null
+                        ? $"Total with discount: {trip.Price:C}"
+                        : $"Total with discount: {trip.Price * (1 - client.Discount):C}";
         }
     }
 }

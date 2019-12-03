@@ -28,6 +28,7 @@ namespace TravelAgency.Models
         public decimal Price { get; set; }
         [DisplayName("Amount of trips")]
         public int AmountOfTrips { get; set; }
+        public ICollection<ClientTrip> ClientTrips { get; set; }
         public override string ToString()
         {
             return $"{Name}, {City}";
