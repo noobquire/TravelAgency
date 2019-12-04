@@ -17,7 +17,7 @@
         <Label>Spent for discounts:</Label>
         <Label Margin="165, 0, 0, 0" x:Name="DiscountLabel" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SpentForDiscounts}"></Label>
         <Label Margin="0, 30, 0, 0">Most expensive trip:</Label>
-        <Label Margin="170, 30, 0, 0" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=MostExpensiveTrip}"></Label>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="70" Margin="30" Click="ButtonBase_OnClick">Ok</Button>
+        <Label Margin="165, 30, 0, 0" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=MostExpensiveTrip}"></Label>
+        <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="70" Margin="20" Click="ButtonBase_OnClick">Ok</Button>
     </Grid>
 </Window>

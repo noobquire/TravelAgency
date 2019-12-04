@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace TravelAgency.Models
 {
-    public sealed class Client
+    public sealed class Client : IPerson
     {
         [Key]
         public int Id { get; set; }
@@ -34,7 +34,6 @@ namespace TravelAgency.Models
         [Range(0, 1)]
         [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = true)]
         public decimal Discount { get; set; }
-        // TODO: switch to many-to-many relationship
         public ICollection<ClientTrip> ClientTrips { get; set; }
         [DisplayName("Trips")]
         public string TextTrips => string.Join(", ", ClientTrips.Select(ct => ct.Trip));

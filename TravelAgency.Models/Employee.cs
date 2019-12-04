@@ -7,7 +7,7 @@ using TravelAgency.Models.Utils;
 
 namespace TravelAgency.Models
 {
-    public sealed class Employee
+    public sealed class Employee : IPerson
     {
         [Key]
         public int Id { get; set; }
@@ -15,7 +15,7 @@ namespace TravelAgency.Models
         public string MiddleName { get; set; }
         public string LastName { get; set; }
         public string Username { get; set; }
-        public string PasswordHash { get; set; }
+        private string PasswordHash { get; set; }
         public Employee(string firstName, string middleName, string lastName, string username, string passwordHash)
         {
             FirstName = firstName;

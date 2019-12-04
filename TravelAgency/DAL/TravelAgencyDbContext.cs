@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using TravelAgency.Models;
 using Microsoft.EntityFrameworkCore.SqlServer;
@@ -42,7 +43,20 @@ namespace TravelAgency.DAL
                 .HasOne(ct => ct.Trip)
                 .WithMany(t => t.ClientTrips)
                 .HasForeignKey(ct => ct.TripId);
-
+            modelBuilder.Entity<Employee>()
+                .Property(typeof(string), "PasswordHash");
+        }
+        
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                foreach (var pi in entry.Entity.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic))
+                {
+                    entry.Property(pi.Name).CurrentValue = pi.GetValue(entry.Entity);
+                }
+            }
+            return base.SaveChanges();
         }
     }
 }

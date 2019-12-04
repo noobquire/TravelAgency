@@ -12,19 +12,30 @@ namespace TravelAgency
     /// </summary>
     public partial class StatsWindow : Window
     {
-        public decimal? SpentForDiscounts { get; set; }
+        public string SpentForDiscounts { get; set; }
         public Trip MostExpensiveTrip { get; set; }
+
         public StatsWindow()
         {
             using (var context = new TravelAgencyDbContext())
             {
-
-                var totalSpentPerClient = context.Clients?.ToDictionary(c => c, c => c.ClientTrips?.Sum(ct => ct.Trip.Price) ?? 0);
-                SpentForDiscounts = totalSpentPerClient?.Sum(kvp => kvp.Key.Discount * kvp.Value);
+                var clients = context.Clients
+                    .Include(c => c.ClientTrips)
+                    .ThenInclude(ct => ct.Trip);
+                var pricesSums = new Dictionary<Client, decimal>();
+                foreach (var client in clients)
+                {
+                    if (client.ClientTrips != null && client.ClientTrips.Any())
+                    {
+                        pricesSums[client] = client.ClientTrips.Sum(ct => ct.Trip.Price);
+                    }
+                }
+                SpentForDiscounts = $"{pricesSums.Sum(kvp => kvp.Key.Discount * kvp.Value):C}";
 
                 MostExpensiveTrip =
                     context.Trips.ToList().Aggregate((trip1, trip2) => trip1.Price > trip2.Price ? trip1 : trip2);
             }
+
             InitializeComponent();
         }
 

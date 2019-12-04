@@ -38,7 +38,7 @@ namespace TravelAgency
             context.Clients.Load();
             TripsGrid.ItemsSource = context.Trips.Local.ToObservableCollection();
             SalesGrid.ItemsSource = context.Sales.Local.ToObservableCollection();
-            ClientsGrid.ItemsSource = context.Clients.Local.ToObservableCollection();
+            ClientsGrid.ItemsSource = context.Clients.Include(c => c.ClientTrips).ToList();
             CityFilterComboBox.ItemsSource = context.Trips.Local.Select(t => t.City).Distinct();
         }
 
@@ -63,6 +63,7 @@ namespace TravelAgency
             {
                 ((DataGridTextColumn) e.Column).Binding.StringFormat = "P";
             }
+            
         }
 
         private void ClientsFilterCheckBox_OnChecked(object sender, RoutedEventArgs e)
