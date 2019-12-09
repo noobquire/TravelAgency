@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="TravelAgency.Models.Client" BaseTypeListCollapsed="true">
     <Position X="7" Y="2.75" Width="2" />
     <TypeIdentifier>
@@ -23,7 +23,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="TravelAgency.Models.Employee" BaseTypeListCollapsed="true">
-    <Position X="3.75" Y="2.75" Width="2.25" />
+    <Position X="4.5" Y="2.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AACCAEAAAAAAAAAAAQAQAAAAAAAAAAAAAAAAAIAAAAg=</HashCode>
       <FileName>Employee.cs</FileName>
@@ -31,7 +31,7 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="TravelAgency.Models.Sale">
-    <Position X="14" Y="6.5" Width="2.25" />
+    <Position X="14.25" Y="6.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAAKAAAAEAABAAwAAAAAAAAAAAAAAAQAAAAAAAAAIAA=</HashCode>
       <FileName>Sale.cs</FileName>
@@ -41,7 +41,7 @@
     </ShowAsAssociation>
   </Class>
   <Class Name="TravelAgency.Models.Trip">
-    <Position X="14.25" Y="2.75" Width="1.5" />
+    <Position X="14.25" Y="2.75" Width="2.5" />
     <TypeIdentifier>
       <HashCode>gAICAAAQASIgAAAMAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Trip.cs</FileName>
@@ -51,14 +51,14 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="TravelAgency.Models.Utils.Hasher">
-    <Position X="1.75" Y="3.75" Width="1.5" />
+    <Position X="4.5" Y="5.75" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Utils\Hasher.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Interface Name="TravelAgency.Models.IPerson">
-    <Position X="5.5" Y="0.5" Width="1.5" />
+    <Position X="5.5" Y="0.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAEAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>IPerson.cs</FileName>

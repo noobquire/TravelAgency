@@ -16,17 +16,11 @@ namespace TravelAgency.Models
         public string LastName { get; set; }
         public string Username { get; set; }
         private string PasswordHash { get; set; }
-        public Employee(string firstName, string middleName, string lastName, string username, string passwordHash)
+
+        public Employee(string username, string passwordHash)
         {
-            FirstName = firstName;
-            MiddleName = middleName;
-            LastName = lastName;
             Username = username;
             PasswordHash = passwordHash;
-        }
-
-        public Employee()
-        {
         }
 
         public bool CheckPassword(string password)

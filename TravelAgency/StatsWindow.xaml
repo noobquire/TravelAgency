@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TravelAgency"
         mc:Ignorable="d"
-        Title="Statistics" Height="150" Width="450" ResizeMode="NoResize">
+        Title="Statistics" Height="200" Width="450" ResizeMode="NoResize">
     <Grid>
         <Grid.Resources>
             <Style TargetType="Label">
@@ -18,6 +17,8 @@
         <Label Margin="165, 0, 0, 0" x:Name="DiscountLabel" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=SpentForDiscounts}"></Label>
         <Label Margin="0, 30, 0, 0">Most expensive trip:</Label>
         <Label Margin="165, 30, 0, 0" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=MostExpensiveTrip}"></Label>
+        <Label Margin="0, 60, 0, 0">Most popular trip:</Label>
+        <Label Margin="150, 60, 0, 0" Content="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}, Path=MostPopularTrip}"></Label>
         <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="70" Margin="20" Click="ButtonBase_OnClick">Ok</Button>
     </Grid>
 </Window>

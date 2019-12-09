@@ -37,7 +37,12 @@ namespace TravelAgency
             }
 
             var passwordHash = Hasher.CalculateHash(password, username);
-            var employee = new Employee(firstName, middleName, lastName, username, passwordHash);
+            var employee = new Employee(username, passwordHash)
+            {
+                FirstName = firstName,
+                MiddleName = middleName,
+                LastName = lastName,
+            };
 
             await using var context = new TravelAgencyDbContext();
             if (await context.Employees.AnyAsync(emp => emp.Username == username))
