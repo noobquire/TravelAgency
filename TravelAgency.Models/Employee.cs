@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 using TravelAgency.Models.Utils;
 
 
 namespace TravelAgency.Models
 {
-    public sealed class Employee : IPerson
+    public class Employee : IPerson
     {
         [Key]
         public int Id { get; set; }
@@ -16,12 +13,15 @@ namespace TravelAgency.Models
         public string LastName { get; set; }
         public string Username { get; set; }
         private string PasswordHash { get; set; }
+        public bool IsAdmin { get; private set; }
 
         public Employee(string username, string passwordHash)
         {
             Username = username;
             PasswordHash = passwordHash;
         }
+
+        private Employee() { }
 
         public bool CheckPassword(string password)
         {

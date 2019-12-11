@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Microsoft.EntityFrameworkCore;
 using TravelAgency.DAL;
 
@@ -19,13 +10,15 @@ namespace TravelAgency
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private MainWindow _mainWindow;
         public LoginWindow()
         {
-           
+
         }
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
+            LoginButton.IsEnabled = false;
             var username = UsernameBox.Text;
             var password = PasswordBox.Password;
             await using var context = new TravelAgencyDbContext();
@@ -35,17 +28,19 @@ namespace TravelAgency
                 var employee = await employees.SingleAsync(emp => emp.Username == username);
                 if (employee.CheckPassword(password))
                 {
-                    var mainWindow = new MainWindow(employee);
-                    mainWindow.Show();
+                    _mainWindow = new MainWindow(employee);
+                    _mainWindow.Show();
                     this.Close();
                 }
                 else
                 {
+                    LoginButton.IsEnabled = true;
                     MessageBox.Show("Invalid password", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
             catch (InvalidOperationException)
             {
+                LoginButton.IsEnabled = true;
                 MessageBox.Show("Invalid username", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }

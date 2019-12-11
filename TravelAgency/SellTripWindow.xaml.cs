@@ -23,7 +23,7 @@ namespace TravelAgency
             using TravelAgencyDbContext context = new TravelAgencyDbContext();
             context.Clients.Load();
             context.Trips.Load();
-            var clients = context.Clients.Local.ToObservableCollection();
+            var clients = context.Clients.Include(c => c.ClientTrips).ToList();
             var trips = context.Trips.Local.Where(t => t.AmountOfTrips >= 1).ToArray();
             ClientsComboBox.ItemsSource = clients;
             TripsComboBox.ItemsSource = trips;

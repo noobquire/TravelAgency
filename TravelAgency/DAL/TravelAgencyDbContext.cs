@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 using TravelAgency.Models;
-using Microsoft.EntityFrameworkCore.SqlServer;
-using TravelAgency.Migrations;
 
 namespace TravelAgency.DAL
 {
@@ -45,6 +41,8 @@ namespace TravelAgency.DAL
                 .HasForeignKey(ct => ct.TripId);
             modelBuilder.Entity<Employee>()
                 .Property(typeof(string), "PasswordHash");
+            modelBuilder.Entity<Employee>()
+                .Property(typeof(bool), "IsAdmin");
         }
         
         public override int SaveChanges()

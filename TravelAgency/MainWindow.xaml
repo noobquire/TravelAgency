@@ -3,9 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TravelAgency"
         mc:Ignorable="d"
-        Title="Travel Agency Manager" Height="450" Width="800">
+        Title="Travel Agency Manager" Height="450" Width="800" PreviewKeyDown="Window_OnKeyDown">
     <Grid>
         <Menu VerticalAlignment="Top" Height="20">
             <MenuItem x:Name="StatsMenuItem" Header="_Stats" Click="StatsMenuItem_OnClick" />
@@ -14,8 +13,8 @@
             <MenuItem x:Name="SellTripMenuItem" Header="_Sell trip" Click="SellTripMenuItem_OnClick"/>
         </Menu>
         <Label x:Name="LoginLabel" Margin="0, -5, 0, 0" Height="30" VerticalAlignment="Top" HorizontalAlignment="Right">Logged in as Alexey Litvinov</Label>
-        <TabControl Margin="0,20,0,0">
-            <TabItem Header="Clients">
+        <TabControl x:Name="CollectionsTabs" Margin="0,20,0,0">
+            <TabItem x:Name="ClientsTab" Header="Clients">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
@@ -28,10 +27,10 @@
                     <ComboBox Margin="160, 5, 0, 5" Width="100" x:Name="CityFilterComboBox" VerticalAlignment="Top"
                               HorizontalAlignment="Left" Grid.Column="0" Grid.Row="0" SelectedIndex="0" />
                     <DataGrid x:Name="ClientsGrid" IsReadOnly="True" AutoGenerateColumns="True"
-                              AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1" />
+                              AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" Grid.Column="0" Grid.Row="1" SelectionMode="Single"/>
                 </Grid>
             </TabItem>
-            <TabItem Header="Trips">
+            <TabItem x:Name="TripsTab" Header="Trips">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
@@ -51,9 +50,13 @@
                     </CheckBox>
                 </Grid>
             </TabItem>
-            <TabItem Header="Sales">
+            <TabItem x:Name="SalesTab" Header="Sales">
                 <DataGrid IsReadOnly="True" x:Name="SalesGrid" AutoGenerateColumns="True"
-                          AutoGeneratingColumn="Grid_OnAutoGeneratingColumn" />
+                          AutoGeneratingColumn="Grid_OnAutoGeneratingColumn"/>
+            </TabItem>
+            <TabItem x:Name="EmployeesTab" Header="Employees" IsEnabled="False">
+                <DataGrid IsReadOnly="True" x:Name="EmployeesGrid" AutoGenerateColumns="True"
+                          AutoGeneratingColumn="Grid_OnAutoGeneratingColumn"></DataGrid>
             </TabItem>
         </TabControl>
     </Grid>
